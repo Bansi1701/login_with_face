@@ -10,6 +10,11 @@ from base.com.dao.registration_dao import UserDAO
 from base.com.vo.registration_vo import UserVO
 
 
+@app.route('/load_registration')
+def load_registration():
+    return render_template('register.html')
+
+
 @app.route('/user_registration', methods=['POST'])
 def user_registration():
     user_name = request.form.get('name')
@@ -58,10 +63,10 @@ def Train_Images():
     harcascadePath = "C:/Users/bansi/PycharmProjects/login_with_face/base/static/haarcascade_frontalface_default.xml"
 
     detector = cv2.CascadeClassifier(harcascadePath)
-    #print("hashnsajkdf>>>>", harcascadePath)
+    # print("hashnsajkdf>>>>", harcascadePath)
     faces, Id = getImagesAndLabels("TrainingImage")
     recognizer.train(faces, np.array(Id))
-    #print("recognizer::>>>>>>>", recognizer)
+    # print("recognizer::>>>>>>>", recognizer)
     recognizer.save("TrainingImageLabel/" + session['email'] + ".yml")
     flash("Now you can login your self")  # +",".join(str(f) for f in Id)
     return render_template('login.html')
@@ -79,6 +84,6 @@ def getImagesAndLabels(path):
         Id = int(os.path.split(imagePath)[-1].split(".")[1])
         faces.append(imageNp)
         Ids.append(Id)
-        #print(faces)
-        #print(Ids)
+        # print(faces)
+        # print(Ids)
     return faces, Ids
