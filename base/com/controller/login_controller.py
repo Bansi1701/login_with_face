@@ -1,7 +1,8 @@
 import cv2
 from flask import *
 from base import *
-from base.com.dao.login_dao import
+from base.com.dao.registration_dao import UserDAO
+from base.com.vo.registration_vo import UserVO
 
 @app.route('/')
 def index():
@@ -11,6 +12,8 @@ def index():
 @app.route('/user_login', methods=["POST"])
 def user_login():
     user_email_id = request.form.get('email')
+
+    
     name_of_user = None
     recognizer = cv2.face.LBPHFaceRecognizer_create()  # cv2.createLBPHFaceRecognizer()
     recognizer.read("TrainingImageLabel\Trainner" + session['userid'] + ".yml")
