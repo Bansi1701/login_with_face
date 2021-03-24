@@ -1,8 +1,8 @@
 from base import database
 
 
-class faceVO(database.Model):
-    __tablename__ = 'face_database'
+class UserVO(database.Model):
+    __tablename__ = 'user_database'
     user_id = database.Column('user_id', database.Integer, primary_key=True, autoincrement=True)
     user_name = database.Column('user_name', database.String(100))
     user_email_id = database.Column('user_email_id', database.String(100))

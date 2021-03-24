@@ -1,12 +1,11 @@
 import os
-
 import cv2
 import numpy as np
 from PIL import Image
 from flask import *
 
 from base import *
-
+from base.com.vo.registration_vo import UserVO
 
 @app.route('/user_registration', methods=['POST'])
 def user_registration():
