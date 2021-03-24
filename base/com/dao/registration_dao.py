@@ -1,4 +1,4 @@
-from base.com.vo.login_with_face_vo import *
+from base.com.vo.registration_vo import *
 
 
 class faceDAO:
