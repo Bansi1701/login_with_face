@@ -6,14 +6,19 @@ from flask import *
 
 from base import *
 from base.com.vo.registration_vo import UserVO
+from base.com.dao.registration_dao import UserDAO
 
 @app.route('/user_registration', methods=['POST'])
 def user_registration():
-    userid = request.form.get('id')
-    username = request.form.get('name')
-    email = request.form.get('email')
-    password = request.form.get('password')
-    session['email'] = email
+    user_name = request.form.get('name')
+    user_email_id = request.form.get('email')
+    user_password = request.form.get('password')
+    session['email'] = user_email_id
+
+    user_vo=UserVO()
+    user_vo.user_name=user_name
+    user_vo.user_email_id=user_email_id
+    user_vo.user_password=user_password
 
     cam = cv2.VideoCapture(0)
     harcascadePath = "C:/Users/bansi/PycharmProjects/login_with_face/base/static/haarcascade_frontalface_default.xml"
@@ -28,7 +33,7 @@ def user_registration():
             # incrementing sample number
             sampleNum = sampleNum + 1
             # saving the captured face in the dataset folder TrainingImage
-            cv2.imwrite("TrainingImage\ " + username + "." + userid + '.' + str(sampleNum) + ".jpg",
+            cv2.imwrite("TrainingImage\ " + user_name + '.' + str(sampleNum) + ".jpg",
                         gray[y:y + h, x:x + w])
             # display the frame
             cv2.imshow('frame', img)
