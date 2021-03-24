@@ -1,7 +1,7 @@
 import cv2
 from flask import *
 from base import *
-
+from base.com.dao.login_dao import
 
 @app.route('/')
 def index():
