@@ -1,12 +1,14 @@
 import os
+
 import cv2
 import numpy as np
 from PIL import Image
 from flask import *
 
 from base import *
-from base.com.vo.registration_vo import UserVO
 from base.com.dao.registration_dao import UserDAO
+from base.com.vo.registration_vo import UserVO
+
 
 @app.route('/user_registration', methods=['POST'])
 def user_registration():
@@ -15,10 +17,12 @@ def user_registration():
     user_password = request.form.get('password')
     session['email'] = user_email_id
 
-    user_vo=UserVO()
-    user_vo.user_name=user_name
-    user_vo.user_email_id=user_email_id
-    user_vo.user_password=user_password
+    user_vo = UserVO()
+    user_dao = UserDAO()
+    user_vo.user_name = user_name
+    user_vo.user_email_id = user_email_id
+    user_vo.user_password = user_password
+    user_dao.insert_user_details(user_vo)
 
     cam = cv2.VideoCapture(0)
     harcascadePath = "C:/Users/bansi/PycharmProjects/login_with_face/base/static/haarcascade_frontalface_default.xml"
