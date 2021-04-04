@@ -17,7 +17,7 @@ def load_registration():
 
 @app.route('/user_registration', methods=['POST'])
 def user_registration():
-    user_name=request.form.get('name')
+    user_name = request.form.get('name')
     user_email_id = request.form.get('email')
     user_password = request.form.get('password')
     session['user_name'] = user_name
@@ -51,7 +51,7 @@ def user_registration():
         if cv2.waitKey(100) & 0xFF == ord('q'):
             break
         # break if the sample number is morethan 100
-        elif sampleNum > 100:
+        elif sampleNum > 60:
             break
     cam.release()
     cv2.destroyAllWindows()
@@ -70,7 +70,7 @@ def Train_Images():
 
     recognizer.save("TrainingImageLabel/" + session['email'] + ".yml")
     recognizer.empty()
-    for i in range(1,102):
+    for i in range(1, 62):
         os.remove("TrainingImage\ " + session['user_name'] + '.' + str(i) + ".jpg")
     flash("Now you can login your self")  # +",".join(str(f) for f in Id)
     return render_template('login.html')
