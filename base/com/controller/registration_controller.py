@@ -17,9 +17,10 @@ def load_registration():
 
 @app.route('/user_registration', methods=['POST'])
 def user_registration():
-    user_name = request.form.get('name')
+    user_name=request.form.get('name')
     user_email_id = request.form.get('email')
     user_password = request.form.get('password')
+    session['user_name'] = user_name
     session['email'] = user_email_id
 
     user_vo = UserVO()
@@ -42,7 +43,7 @@ def user_registration():
             # incrementing sample number
             sampleNum = sampleNum + 1
             # saving the captured face in the dataset folder TrainingImage
-            cv2.imwrite("TrainingImage\ " + user_name + '.' + str(sampleNum) + ".jpg",
+            cv2.imwrite("TrainingImage\ " + session['user_name'] + '.' + str(sampleNum) + ".jpg",
                         gray[y:y + h, x:x + w])
             # display the frame
             cv2.imshow('frame', img)
@@ -50,7 +51,7 @@ def user_registration():
         if cv2.waitKey(100) & 0xFF == ord('q'):
             break
         # break if the sample number is morethan 100
-        elif sampleNum > 60:
+        elif sampleNum > 100:
             break
     cam.release()
     cv2.destroyAllWindows()
@@ -63,11 +64,14 @@ def Train_Images():
     harcascadePath = "C:/Users/bansi/PycharmProjects/login_with_face/base/static/haarcascade_frontalface_default.xml"
 
     detector = cv2.CascadeClassifier(harcascadePath)
-    # print("hashnsajkdf>>>>", harcascadePath)
     faces, Id = getImagesAndLabels("TrainingImage")
     recognizer.train(faces, np.array(Id))
     # print("recognizer::>>>>>>>", recognizer)
+
     recognizer.save("TrainingImageLabel/" + session['email'] + ".yml")
+    recognizer.empty()
+    for i in range(1,102):
+        os.remove("TrainingImage\ " + session['user_name'] + '.' + str(i) + ".jpg")
     flash("Now you can login your self")  # +",".join(str(f) for f in Id)
     return render_template('login.html')
 

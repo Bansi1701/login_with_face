@@ -18,7 +18,6 @@ def user_login():
     session['user_email_id'] = user_email_id
     user_dao = UserDAO()
     user_vo_list = user_dao.view_email_id()
-    print(user_vo_list[0].user_email_id)
     for user_details in user_vo_list:
         if (user_details.user_email_id) == user_email_id:
             session['user_name'] = user_details.user_name
@@ -35,6 +34,8 @@ def login_with_face():
     name_of_user = None
     recognizer = cv2.face.LBPHFaceRecognizer_create()  # cv2.createLBPHFaceRecognizer()
     recognizer.read("TrainingImageLabel/" + session['user_email_id'] + ".yml")
+    print("TrainingImageLabel/" + session['user_email_id'] + ".yml")
+    print(session['user_email_id'])
     harcascadePath = "C:/Users/bansi/PycharmProjects/login_with_face/base/static/haarcascade_frontalface_default.xml"
     faceCascade = cv2.CascadeClassifier(harcascadePath);
     cam = cv2.VideoCapture(0)
@@ -46,12 +47,14 @@ def login_with_face():
         for (x, y, w, h) in faces:
             cv2.rectangle(im, (x, y), (x + w, y + h), (225, 0, 0), 2)
             Id, conf = recognizer.predict(gray[y:y + h, x:x + w])
-            if (conf < 50):
+            print(conf)
+            if (conf < 20):
+                tt = str(Id) + "-" + session['user_name']
                 return render_template('welcome.html', username=session['user_name'])
             else:
                 Id = 'Unknown'
                 tt = str(Id)
-            if (conf > 75):
+            if (conf > 55):
                 noOfFile = len(os.listdir("ImagesUnknown")) + 1
                 cv2.imwrite("ImagesUnknown\Image" + str(noOfFile) + ".jpg", im[y:y + h, x:x + w])
             cv2.putText(im, str(tt), (x, y + h), font, 1, (255, 255, 255), 2)
