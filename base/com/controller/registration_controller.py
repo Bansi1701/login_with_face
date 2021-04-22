@@ -40,7 +40,7 @@ def user_registration():
         faces = detector.detectMultiScale(gray, 1.3, 5)
         for (x, y, w, h) in faces:
             cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)
-            # incrementing sample number
+       
             sampleNum = sampleNum + 1
             # saving the captured face in the dataset folder TrainingImage
             cv2.imwrite("TrainingImage\ " + session['user_name'] + '.' + str(sampleNum) + ".jpg",
@@ -66,7 +66,6 @@ def Train_Images():
     detector = cv2.CascadeClassifier(harcascadePath)
     faces, Id = getImagesAndLabels("TrainingImage")
     recognizer.train(faces, np.array(Id))
-    # print("recognizer::>>>>>>>", recognizer)
 
     recognizer.save("TrainingImageLabel/" + session['email'] + ".yml")
     recognizer.empty()
